@@ -1,19 +1,20 @@
-const {nanoid}= require('nanoid');
+const { nanoid } = require('nanoid');
+const URL = require('../models/url.js');
 
-const URL = require('../models/url.js')
-async function handleGenerateNewShortURL(req,res) {
+async function handleGenerateNewShortURL(req, res) {
     const body = req.body;
-    if(!body.url) return res.status(400).json({error: 'url is required'})
+    if (!body.url) return res.status(400).json({ error: 'url is required' });
+
     const shortID = nanoid(8); 
-    await URL.create({
-        shortId: shortID,
-        redirectURL: req.url,
-        visitedHistory : []
-    });
-
-    return res.json({id: shortID});
-
-
-    
+    try {
+        await URL.create({
+            shortID: shortID,
+            redirectUrl: body.url,    // Fix: Use the user's actual URL here!
+            visitHistory: []
+        });
+        return res.json({ id: shortID });
+    } catch (err) {
+        return res.status(500).json({ error: "Database error", details: err.message });
+    }
 }
-module.exports= {handleGenerateNewShortURL};
+module.exports = { handleGenerateNewShortURL };
