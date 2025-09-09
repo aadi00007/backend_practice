@@ -18,4 +18,6 @@ const urlschema  = mongoose.Schema({
 },
 {timestamps: true});
 const URL = mongoose.model('url', urlschema);
-module.exports = URL;
+module.exports = {
+    URL,
+}

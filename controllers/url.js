@@ -16,4 +16,4 @@ async function handleGenerateNewShortURL(req,res) {
 
     
 }
-module.exports(handleGenerateNewShortURL);
+module.exports= {handleGenerateNewShortURL};
